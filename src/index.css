@@ -28,12 +28,11 @@ h1 {
   height: 100vh;
   position: relative;
   background-color: rgba(0, 0, 0, 0.4);
-  background: url(./images/Bg.jpg) no-repeat center center/cover;
   color: #fff;
 }
 
-/* .app::before{
-  content: '';
+.app::before {
+  content: "";
   background: url(./images/Bg.jpg) no-repeat center center/cover;
   position: absolute;
   width: 100%;
@@ -41,12 +40,13 @@ h1 {
   top: 0;
   left: 0;
   z-index: -1;
-} */
+}
 
 .app .searchBox,
 .btn {
   text-align: center;
   padding: 1rem;
+  background: transparent;
 }
 
 .app input {
@@ -54,7 +54,7 @@ h1 {
   font-size: 1.2rem;
   border-radius: 25px;
   border: 1px solid rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.1);
+  background: transparent;
   color: #f8f8f8;
 }
 
@@ -84,6 +84,8 @@ h1 {
   justify-content: space-between;
 }
 
+
+
 .app .top {
   width: 100%;
   margin: 1rem auto;
@@ -111,3 +113,65 @@ h1 {
 .bold {
   font-weight: 700;
 }
+
+@media (max-width: 420px) {
+  /* .container {
+    max-width: 500px;
+    height: 500px;
+  } */
+
+  .container .bottom{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container .description{
+    width: 100%;
+  margin: 1rem auto;
+  position: relative;
+  right: 0%;
+  /* transform-origin: 0 0; */
+  transform: none;
+  }
+
+  .app .searchBox,
+  .app .btn {
+    width: auto;
+    padding: 0.7rem 1.5rem;
+  }
+}
+
+@media (max-width: 370px) {
+  .container .top .temp h1{
+    font-size: 5rem;
+  }
+}
+
+@media (max-width: 327px) {
+  .container .top .temp h1{
+    font-size: 4rem;
+  }
+  /* .app .searchBox{
+    width: 150px;
+  } */
+  .app input{
+    width: 220px;
+  }
+}
+
+@media (max-height: 600px) {
+  .container {
+    height: auto;
+  }
+
+  .app .searchBox,
+  .app .btn {
+    padding: 0.5rem 1rem; /* Adjust padding for smaller heights */
+    font-size: 1rem; /* Adjust font size for smaller heights */
+  }
+}
+
+
+
