@@ -22,7 +22,7 @@ function App() {
   };
 
   const styles = {
-    background: "url(/images/Bg.jpg) no-repeat center center/cover",
+    background: "url(/images/Clouds.jpg) no-repeat center center/cover",
   };
 
 
