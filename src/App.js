@@ -10,6 +10,7 @@ function App() {
   // const [location, setLocation] = useState(' ')
   const [search, setSearch] = useState("");
   const [weather, setWeather] = useState({});
+  // const [BG, setBG] = useState("Clear");
 
   const searchPressed = () => {
     fetch(`${api.base}weather?q=${search}&units=metric&APPID=${api.key}`)
@@ -20,8 +21,13 @@ function App() {
       });
   };
 
+  const styles = {
+    background: "url(/images/Bg.jpg) no-repeat center center/cover",
+  };
+
+
   return (
-    <div className="app">
+    <div className="app" style={styles}>
       <div className="searchBox">
         <input type="text" placeholder="Search Location..." onChange={(e) => setSearch(e.target.value)} />
         <button onClick={searchPressed} className="btn">
