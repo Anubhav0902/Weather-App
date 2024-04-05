@@ -1,71 +1,60 @@
 import "./index.css";
 import React, { useState } from "react";
+import styled from "styled-components";
+import Axios from "axios";
+import CityComponent from "./modules/CityComponent";
+import WeatherComponent from "./modules/WeatherInfoComponent";
 
-const api = {
-  key: "afbbf14a8da37084c1a1faf890b54f13",
-  base: "https://api.openweathermap.org/data/2.5/",
+export const WeatherIcons = {
+  "01d": "/icons/sunny.svg",
+  "01n": "/icons/night.svg",
+  "02d": "/icons/day.svg",
+  "02n": "/icons/cloudy-night.svg",
+  "03d": "/icons/cloudy.svg",
+  "03n": "/icons/cloudy.svg",
+  "04d": "/icons/perfect-day.svg",
+  "04n": "/icons/cloudy-night.svg",
+  "09d": "/icons/rain.svg",
+  "09n": "/icons/rain-night.svg",
+  "10d": "/icons/rain.svg",
+  "10n": "/icons/rain-night.svg",
+  "11d": "/icons/storm.svg",
+  "11n": "/icons/storm.svg",
 };
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 380px;
+  padding: 20px 10px;
+  margin: auto;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px 0 #555;
+  background: white;
+  font-family: Montserrat;
+`;
+
+const AppLabel = styled.span`
+  color: black;
+  margin: 20px auto;
+  font-size: 18px;
+  font-weight: bold;
+`;
+
 function App() {
-  // const [location, setLocation] = useState(' ')
-  const [search, setSearch] = useState("");
-  const [weather, setWeather] = useState({});
-  // const [BG, setBG] = useState("Clear");
-
-  const searchPressed = () => {
-    fetch(`${api.base}weather?q=${search}&units=metric&APPID=${api.key}`)
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-        setWeather(result);
-      });
+  const [city, updateCity] = useState();
+  const [weather, updateWeather] = useState();
+  const fetchWeather = async (e) => {
+    e.preventDefault();
+    const response = await Axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=fe4feefa8543e06d4f3c66d92c61b69c`);
+    updateWeather(response.data);
   };
-
-  const styles = {
-    background: "url(/images/Clouds.jpg) no-repeat center center/cover",
-  };
-
-
   return (
-    <div className="app" style={styles}>
-      <div className="searchBox">
-        <input type="text" placeholder="Search Location..." onChange={(e) => setSearch(e.target.value)} />
-        <button onClick={searchPressed} className="btn">
-          Search
-        </button>
-      </div>
-      {typeof weather.main != "undefined" ? (
-        <div className="container">
-          <div className="top">
-            <div className="location">
-              <p>{weather.name}</p>
-            </div>
-            <div className="temp">
-              <h1>{weather.main.temp}&deg;F</h1>
-            </div>
-            <div className="description">
-              <p>{weather.weather[0].main}</p>
-            </div>
-          </div>
-          <div className="bottom">
-            <div className="feels">
-              <p className="bold">{weather.main.feels_like}&deg;F</p>
-              <p>Feels Like</p>
-            </div>
-            <div className="humidity">
-              <p className="bold">{weather.main.humidity}%</p>
-              <p>Humidity</p>
-            </div>
-            <div className="wind">
-              <p className="bold">{weather.wind.speed}MPH</p>
-              <p>Wind speed</p>
-            </div>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
-    </div>
+    <Container>
+      <AppLabel>React Weather App</AppLabel>
+      {city && weather ? <WeatherComponent weather={weather} city={city} /> : <CityComponent updateCity={updateCity} fetchWeather={fetchWeather} />}
+    </Container>
   );
 }
 
