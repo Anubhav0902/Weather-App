@@ -75,6 +75,8 @@ const InfoLabel = styled.span`
   }
 `;
 
+
+
 const WeatherInfoComponent = (props) => {
   const { name, value } = props;
   return (

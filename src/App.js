@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Axios from "axios";
 import CityComponent from "./modules/CityComponent";
 import WeatherComponent from "./modules/WeatherInfoComponent";
+import { ToastContainer, toast } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast styles
 
 export const WeatherIcons = {
   "01d": "/icons/sunny.svg",
@@ -47,12 +49,24 @@ function App() {
   const [weather, updateWeather] = useState();
   const fetchWeather = async (e) => {
     e.preventDefault();
-    const response = await Axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=fe4feefa8543e06d4f3c66d92c61b69c`);
-    updateWeather(response.data);
+    try {
+      const response = await Axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=fe4feefa8543e06d4f3c66d92c61b69c`);
+      updateWeather(response.data);
+    } catch (error) {
+      // Handle the error here
+      toast.error("Enter a valid city name!!!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+      console.error('Error fetching weather data:', error);
+      // You can also update state or display an error message to the user if needed
+    }
   };
   return (
     <Container>
       <AppLabel>React Weather App</AppLabel>
+      <ToastContainer /> {/* Include ToastContainer component here */}
       {city && weather ? <WeatherComponent weather={weather} city={city} /> : <CityComponent updateCity={updateCity} fetchWeather={fetchWeather} />}
     </Container>
   );
