@@ -6,6 +6,7 @@ import CityComponent from "./modules/CityComponent";
 import WeatherComponent from "./modules/WeatherInfoComponent";
 import { ToastContainer, toast } from "react-toastify"; // Import ToastContainer and toast
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast styles
+import back_icon from "./assests/back-button.png";
 
 export const WeatherIcons = {
   "01d": "/icons/sunny.svg",
@@ -44,9 +45,16 @@ const AppLabel = styled.span`
   font-weight: bold;
 `;
 
+const BackIcon = styled.img`
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+`;
+
 function App() {
   const [city, updateCity] = useState();
   const [weather, updateWeather] = useState();
+
   const fetchWeather = async (e) => {
     e.preventDefault();
     try {
@@ -54,19 +62,25 @@ function App() {
       updateWeather(response.data);
     } catch (error) {
       // Handle the error here
-      toast.error("Enter a valid city name!!!", {
+      toast.error("Failed to fetch city data", {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: true,
       });
-      console.error('Error fetching weather data:', error);
+      console.error("Error fetching weather data:", error);
       // You can also update state or display an error message to the user if needed
     }
   };
+
+  const handleBackClick = () => {
+    updateWeather(null);
+  };
+
   return (
     <Container>
+      {weather && <BackIcon src={back_icon} onClick={handleBackClick} />}
       <AppLabel>React Weather App</AppLabel>
-      <ToastContainer /> {/* Include ToastContainer component here */}
+      <ToastContainer />
       {city && weather ? <WeatherComponent weather={weather} city={city} /> : <CityComponent updateCity={updateCity} fetchWeather={fetchWeather} />}
     </Container>
   );
